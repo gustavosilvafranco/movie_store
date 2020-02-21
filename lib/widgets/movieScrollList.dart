@@ -9,8 +9,8 @@ class MovieScrollList extends StatelessWidget {
 
   MovieScrollList({
     @required this.sectionMovies,
-    @required this.imageHeight,
-    @required this.imageWidth,
+    this.imageHeight = 200.0,
+    this.imageWidth = 200.0,
   });
 
   @override
@@ -31,7 +31,7 @@ class MovieScrollList extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 5.0),
               child: Hero(
-                tag: sectionMovies[index].title,
+                tag: sectionMovies[index].id,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image(

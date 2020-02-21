@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_store/models/filteredMovieList.dart';
 import 'package:movie_store/models/movie.dart';
 import 'package:movie_store/widgets/categoryChoiceMenu.dart';
 import 'package:movie_store/widgets/movieScrollList.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -28,28 +30,32 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SingleChildScrollView(
-              child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
-            showTag('Popular Choices'),
-            Container(
-              padding: EdgeInsets.all(15.0),
-              child: MovieScrollList(
-                  sectionMovies: popularMoviesList,
-                  imageWidth: 200.0,
-                  imageHeight: 200.0),
-            ),
-            Divider(
-              thickness: 2.0,
-            ),
-            SizedBox(height: 15.0),
-            showTag('Filters'),
-            SizedBox(height: 10.0),
-            CategoryChoiceMenu(),
-            SizedBox(height: 500.0,)
-          ],
+        child: ChangeNotifierProvider(
+          create: (context) => FilteredMovieList(),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
+              showTag('Popular Choices'),
+              Container(
+                padding: EdgeInsets.all(15.0),
+                child: MovieScrollList(sectionMovies: popularMoviesList),
+              ),
+              Divider(
+                thickness: 2.0,
+              ),
+              SizedBox(height: 15.0),
+              showTag('Filters'),
+              SizedBox(height: 10.0),
+              CategoryChoiceMenu(),
+              SizedBox(height: 10.0,),
+              Consumer<FilteredMovieList>(
+                builder: (context, movieList, child) =>
+                    MovieScrollList(sectionMovies: movieList.filteredMovieList),
+              ),
+            ],
+          ),
         ),
       ),
     );
